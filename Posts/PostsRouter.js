@@ -56,7 +56,7 @@ router.get("/:id/comments", (req, res) => {
       if (comments[0]) {
         res.status(200).json({success: true, comments})
       } else {
-        res.status(404).json({success: false, message: "The post with the specified ID does not exist."})
+        res.status(404).json({success: false, message: "There are no comments on this post"})
       }
   })
   .catch(err => {
@@ -68,12 +68,24 @@ router.get("/:id/comments", (req, res) => {
 router.put('/:id', (req, res) => {
   db.update(req.params.id, req.body)
     .then(post => {
-      res.status(200).json({success: true, post});
+      res.status(200).json({success: true, message:`post has been updated`});
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({success: false, message: 'Error updating the posts',});
     });
 });
+
+router.delete('/:id', (req, res) => {
+  db.remove(req.params.id)
+    .then(post => {
+      res.status(200).json({success: true, message: "Post has been removed"});
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({success: false, message: 'Error updating the posts',});
+    });
+});
+
 
 module.exports = router
