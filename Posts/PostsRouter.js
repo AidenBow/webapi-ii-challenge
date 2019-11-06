@@ -65,5 +65,15 @@ router.get("/:id/comments", (req, res) => {
   });
 })
 
+router.put('/:id', (req, res) => {
+  db.update(req.params.id, req.body)
+    .then(post => {
+      res.status(200).json({success: true, post});
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({success: false, message: 'Error updating the posts',});
+    });
+});
 
 module.exports = router
